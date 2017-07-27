@@ -49,6 +49,7 @@ class Game extends React.Component {
       }],
       stepNumber: 0,
       xIsNext: true,
+      Sort: 0
     };
   }
 
@@ -76,11 +77,19 @@ class Game extends React.Component {
     this.setState({
       stepNumber: step,
       xIsNext: (step % 2) === 0,
-    })
+    });
   } 
+
+  toggleSort(){
+    const sort = this.state.sort;
+    this.setState({
+      sort: ~ sort,
+    })
+  }
 
   render(){
     const history = this.state.history;
+    const sort = this.state.sort;
     const current = history[this.state.stepNumber];
     const winner = calculateWinner(current.squares);
 
@@ -121,9 +130,11 @@ class Game extends React.Component {
 
   	    <div className="game-info">
             <div>{status}</div>
-            <div>{moves}</div>
+            <button onClick = {() => this.toggleSort()}> toggle btn </button>
+            {(() => {
+              return sort === 0 ? <ol> {moves} </ol> : <ol> {moves.reverse()} </ol>
+            })()}
   	    </div>
-
   	  </div>
   	);
   }
